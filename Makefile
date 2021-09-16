@@ -5,7 +5,7 @@
 ## makefile
 ##
 
-NAME		=	mysh
+NAME		=	42sh
 
 TESTS		=	unit_test
 
