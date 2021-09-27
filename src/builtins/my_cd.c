@@ -5,24 +5,7 @@
 ** command make
 */
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <unistd.h>
 #include "minishell.h"
-
-int reset_env(char **env)
-{
-    char *pwd = getcwd(NULL, 0);
-    char *oldpwd = my_getenv(env, "PWD");
-
-    if (my_strcmp(pwd, oldpwd) != 0) {
-        my_setenv((char *[]) {"/setenv", "OLDPWD", oldpwd}, env);
-        my_setenv((char *[]) {"/setenv", "PWD", pwd}, env);
-    }
-    return (0);
-}
 
 int my_cd(char *strcmd)
 {

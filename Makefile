@@ -33,6 +33,8 @@ CPPFLAGS        =       $(INC)
 
 SRC_DIR		=	src/
 
+BUILT_DIR	=	$(SRC_DIR)builtins/
+
 LIB_DIR		=	lib/my
 
 TESTS_DIR	=	tests/
@@ -43,10 +45,13 @@ UNIT_TEST	=	$(TESTS_DIR)tests_mysh.c			\
 
 SRC		=	$(SRC_DIR)main.c                                \
 			$(SRC_DIR)minishell.c                           \
-			$(SRC_DIR)command.c                             \
 			$(SRC_DIR)my_env.c                              \
 			$(SRC_DIR)handle_error.c			\
 			$(SRC_DIR)operator.c				\
+			$(BUILT_DIR)echo.c				\
+			$(BUILT_DIR)my_setenv.c				\
+			$(BUILT_DIR)my_unsetenv.c				\
+			$(BUILT_DIR)my_cd.c				\
 
 all:	$(NAME)
 

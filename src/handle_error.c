@@ -5,8 +5,6 @@
 ** seg
 */
 
-#include <signal.h>
-#include <string.h>
 #include "minishell.h"
 
 void seg_fault(pid_t pid, int status)

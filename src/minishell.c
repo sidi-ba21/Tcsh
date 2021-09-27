@@ -5,15 +5,11 @@
 ** minishell1 -> cd, setenv, unsetenv, env, exit
 */
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
 #include "minishell.h"
 
 int get_cmd(char **strcmd, char **env)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
         if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0) {
             tabcmd[i].cmd2(strcmd, env);
             return 1;
