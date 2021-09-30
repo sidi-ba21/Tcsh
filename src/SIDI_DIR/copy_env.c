@@ -26,10 +26,11 @@ char **copy_env(list_t *list)
     return (tab);
 }
 
-void create_env(char **tmp)
+char **create_env(void)
 {
     size_t size = 0;
     char *buf = NULL;
+    char **tmp = malloc(sizeof(char *) * 4);
 
     tmp[0] = my_strdup("PWD=");
     tmp[0] = my_strcat(tmp[0], getcwd(buf, size));
@@ -37,4 +38,5 @@ void create_env(char **tmp)
     tmp[2] = my_strdup("PATH=/usr/bin:/bin");
     tmp[3] = 0;
     free(buf);
+    return (tmp);
 }

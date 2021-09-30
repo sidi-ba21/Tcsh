@@ -5,7 +5,24 @@
 ** command make
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <unistd.h>
 #include "minishell.h"
+
+int reset_env(char **env)
+{
+    char *pwd = getcwd(NULL, 0);
+    char *oldpwd = my_getenv(env, "PWD");
+
+    if (my_strcmp(pwd, oldpwd) != 0) {
+        my_setenv((char *[]) {"/setenv", "OLDPWD", oldpwd}, env);
+        my_setenv((char *[]) {"/setenv", "PWD", pwd}, env);
+    }
+    return (0);
+}
 
 int my_cd(char *strcmd)
 {
@@ -23,21 +40,19 @@ int cmdcd(char **strcmd, char **env)
 {
     int i = 0;
 
-    reset_env(env);
     for (; strcmd[i]; i++);
     if (i > 2) {
         my_errorstr("cd: Too many arguments.\n");
-        return 0;
+        return (0);
     }
-    if (strcmd[1] == NULL) {
+    if (strcmd[1] == NULL)
         chdir(my_getenv(env, "HOME"));
-        return 0;
-    }
-    if (my_strcmp(strcmd[1], "-") == 0) {
+    else if (my_strcmp(strcmd[1], "-") == 0)
         chdir(my_getenv(env, "OLDPWD"));
-        return 0;
-    }
-    return my_cd(strcmd[1]);
+    else
+        my_cd(strcmd[1]);
+    reset_env(env);
+    return (0);
 }
 
 int cmdexit(char **strcmd, char **env)

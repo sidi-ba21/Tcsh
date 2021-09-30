@@ -5,6 +5,12 @@
 ** operator
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include "minishell.h"
 
 int simple_exec(char **tab, char **env)

@@ -5,19 +5,15 @@
 ** framebuffer
 */
 
-#ifndef MINISHELL_H_
-#define MINISHELL_H_
-
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "my.h"
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <string.h>
+
+#ifndef MINISHELL_H_
+#define MINISHELL_H_
 
 typedef enum operator_s {
     END = 0,
@@ -68,16 +64,14 @@ char **set_redirection(int *operator, char **tab, char **tmp);
 int error_op(int *operator);
 int null_cmd(char *buffer);
 int get_cmd(char **strcmd, char **env);
-int reset_env(char **env);
-int my_echo(char **str, char **env);
+void my_prompt(char **env);
 
-static const cmd tabcmd[5] =
+static const cmd tabcmd[4] =
 {
     {"cd", &cmdcd},
     {"env", &cmdenv},
     {"setenv", &cmdsetenv},
     {"unsetenv", &cmdunsetenv},
-    {"echo", &my_echo},
 };
 
 #endif

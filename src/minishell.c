@@ -5,11 +5,15 @@
 ** minishell1 -> cd, setenv, unsetenv, env, exit
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
 #include "minishell.h"
 
 int get_cmd(char **strcmd, char **env)
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
         if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0) {
             tabcmd[i].cmd2(strcmd, env);
             return 1;
@@ -82,10 +86,10 @@ int my_sh(char **env)
     size_t bufsize = 0;
     char *buffer = NULL;
 
-    isatty(0) == 1 ? my_putstr("\033[0;32m$> \033[0;37m") : 0;
+    my_prompt(env);
     while (getline(&buffer, &bufsize, stdin) != -1) {
         exec_cmd(buffer, env);
-        isatty(0) == 1 ? my_putstr("\033[0;32m$> \033[0;37m") : 0;
+        my_prompt(env);
     }
     return 0;
 }
