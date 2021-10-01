@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2021
-** command
+** cd
 ** File description:
-** command make
+** builting cd
 */
 
 #include <sys/types.h>
@@ -11,18 +11,6 @@
 #include <signal.h>
 #include <unistd.h>
 #include "minishell.h"
-
-int reset_env(char **env)
-{
-    char *pwd = getcwd(NULL, 0);
-    char *oldpwd = my_getenv(env, "PWD");
-
-    if (my_strcmp(pwd, oldpwd) != 0) {
-        my_setenv((char *[]) {"/setenv", "OLDPWD", oldpwd}, env);
-        my_setenv((char *[]) {"/setenv", "PWD", pwd}, env);
-    }
-    return (0);
-}
 
 int my_cd(char *strcmd)
 {
@@ -45,22 +33,16 @@ int cmdcd(char **strcmd, char **env)
         my_errorstr("cd: Too many arguments.\n");
         return (0);
     }
-    if (strcmd[1] == NULL)
-        chdir(my_getenv(env, "HOME"));
-    else if (my_strcmp(strcmd[1], "-") == 0)
-        chdir(my_getenv(env, "OLDPWD"));
+    if (strcmd[1] == NULL) {
+        if (chdir(my_getenv(env, "HOME")) == -1)
+            my_errorstr("cd: No home directory.\n");
+    }
+    else if (my_strcmp(strcmd[1], "-") == 0) {
+        if (chdir(my_getenv(env, "OLDPWD")) == -1)
+            my_errorstr(": No such file or directory.\n");
+    }
     else
         my_cd(strcmd[1]);
     reset_env(env);
     return (0);
-}
-
-int cmdexit(char **strcmd, char **env)
-{
-    (void) env;
-    if (strcmd[0] && my_strcmp("exit", strcmd[0]) == 0) {
-        my_putstr("exit\n");
-        exit(0);
-    }
-    return 0;
 }

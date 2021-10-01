@@ -64,6 +64,8 @@ char **set_redirection(int *operator, char **tab, char **tmp);
 int error_op(int *operator);
 int null_cmd(char *buffer);
 int get_cmd(char **strcmd, char **env);
+int reset_env(char **env);
+char **create_env(void);
 void my_prompt(char **env);
 
 static const cmd tabcmd[4] =

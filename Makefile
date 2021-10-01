@@ -33,7 +33,9 @@ CPPFLAGS        =       $(INC)
 
 SRC_DIR		=	src/
 
-LIB_DIR		=	lib/my
+BUILTING_DIR	=	src/builting/
+
+LIB_DIR		=	lib/my/
 
 TESTS_DIR	=	tests/
 
@@ -41,12 +43,19 @@ OBJ		=	$(SRC:.c=.o)
 
 UNIT_TEST	=	$(TESTS_DIR)tests_mysh.c			\
 
-SRC		=	$(SRC_DIR)main.c                                \
-			$(SRC_DIR)minishell.c                           \
-			$(SRC_DIR)command.c                             \
-			$(SRC_DIR)my_env.c                              \
+SRC		=	$(SRC_DIR)main.c					\
+			$(SRC_DIR)minishell.c				\
+			$(SRC_DIR)my_env.c					\
 			$(SRC_DIR)handle_error.c			\
 			$(SRC_DIR)operator.c				\
+			$(BUILTING_DIR)env.c				\
+			$(BUILTING_DIR)setenv.c				\
+			$(BUILTING_DIR)unsetenv.c			\
+			$(BUILTING_DIR)cd.c					\
+			$(BUILTING_DIR)exit.c				\
+			$(SRC_DIR)execute.c					\
+			$(SRC_DIR)pipe.c					\
+			$(SRC_DIR)redirection.c				\
 
 all:	$(NAME)
 
