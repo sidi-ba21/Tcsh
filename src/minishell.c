@@ -5,8 +5,6 @@
 ** minishell1 -> cd, setenv, unsetenv, env, exit
 */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 #include "minishell.h"

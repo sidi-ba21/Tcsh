@@ -9,14 +9,17 @@
 #include <string.h>
 #include "minishell.h"
 
-void seg_fault(pid_t pid, int status)
+void seg_fault(pid_t pid, int stat_loc)
 {
-    while (waitpid(pid, &status, 0) != -1 && !WIFEXITED(status)) {
-        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGSEGV)
-            my_errorstr("Segmentation fault (core dumped)\n");
-        if (!WIFSIGNALED(status) && WTERMSIG(status) == SIGSEGV)
-            my_errorstr("Segmentation fault\n");
-    }
+    waitpid(pid, &stat_loc, 0);
+    if (WTERMSIG(stat_loc) == SIGSEGV)
+        my_errorstr("Segmentation fault (core dumped)\n");
+    if (!WIFSIGNALED(stat_loc) && WTERMSIG(stat_loc) == SIGSEGV)
+        my_errorstr("Segmentation fault\n");
+    if (WTERMSIG(stat_loc) == SIGFPE)
+        my_errorstr("floating point exception (core dumped)\n");
+    if (!WIFSIGNALED(stat_loc) && WTERMSIG(stat_loc) == SIGFPE)
+        my_errorstr("floating point exception\n");
 }
 
 int error_op(int *operator)
