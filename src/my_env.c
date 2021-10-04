@@ -9,64 +9,28 @@
 #include <unistd.h>
 #include "minishell.h"
 
-int cmdenv(char **strcmd __attribute__((unused)), char **env)
+char **create_env(void)
 {
-    return my_show_word_array(env);
+    char **base_env = malloc(sizeof(char *) * 4);
+
+    base_env[0] = my_strdup("PWD=");
+    base_env[0] = my_strcat(base_env[0], getcwd(NULL, 0));
+    base_env[1] = my_strdup("HOST=localhost.localdomain");
+    base_env[2] = my_strdup("PATH=/usr/bin:/bin");
+    base_env[3] = 0;
+    return (base_env);
 }
 
-int my_setenv(char **strcmd, char **env)
+int reset_env(char **env)
 {
-    int i = 0;
-    char **setenv = env;
+    char *pwd = getcwd(NULL, 0);
+    char *oldpwd = my_getenv(env, "PWD");
 
-    for (i = 0; env[i] && my_strcmp(env[i], strcmd[1]) != 61; i++);
-    if (env[i] == NULL) {
-        env = malloc(sizeof(char *) * (i + 2));
-        env = setenv;
-        env[i + 1] = NULL;
+    if (my_strcmp(pwd, oldpwd) != 0) {
+        my_setenv((char *[]) {"/setenv", "OLDPWD", oldpwd}, env);
+        my_setenv((char *[]) {"/setenv", "PWD", pwd}, env);
     }
-    env[i] = my_strcat(strcmd[1], "=");
-    if (strcmd[2] != NULL)
-        env[i] = my_strcat(env[i], strcmd[2]);
-    return 0;
-}
-
-int cmdsetenv(char **strcmd, char **env)
-{
-    int i = 0;
-
-    for (; strcmd[i]; i++);
-    if (i == 1) {
-        my_show_word_array(env);
-        return 0;
-    }
-    if (i > 3) {
-        my_errorstr("setenv: Too many arguments.\n");
-        return 0;
-    }
-    return my_setenv(strcmd, env);
-}
-
-int cmdunsetenv(char **strcmd, char **env)
-{
-    int i = 0;
-    int j = 0;
-    int count = 0;
-
-    if (strcmd[1] == NULL) {
-        my_errorstr("unsetenv: Too few arguments.\n");
-        return 0;
-    }
-    for (; env[i]; i++) {
-        for (count = 0; strcmd[count] &&
-        my_strcmp(env[i], strcmd[count]) != 61; count++);
-        if (strcmd[count] != NULL)
-            j++;
-        else
-            env[i - j] = my_strdup(env[i]);
-    }
-    env[i - j] = NULL;
-    return 0;
+    return (0);
 }
 
 char *my_getenv(char **env, const char *name)

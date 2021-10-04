@@ -11,31 +11,22 @@
 #include <string.h>
 #include "minishell.h"
 
-int get_cmd(char **strcmd, char **env)
+void my_prompt(char **env)
 {
-    for (int i = 0; i < 4; i++)
-        if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0) {
-            tabcmd[i].cmd2(strcmd, env);
-            return 1;
-        }
-    return 0;
-}
+    char *str = my_getenv(env, "PWD");
+    int k = 0;
 
-int check_path(char **tab, char **env)
-{
-    char **path = my_str_to_word_array(my_getenv(env, "PATH"));
-    char *str = NULL;
-
-    if (tab[0] == NULL)
-        return -1;
-    for (int i = 0; path[i]; i++) {
-        str = my_strcat(my_strcat(path[i], "/"), tab[0]);
-        if (access(str, F_OK | X_OK) == 0) {
-            tab[0] = str;
-            return 1;
-        }
+    if (my_getenv(env, "USER") == NULL || str == NULL) {
+        isatty(0) == 1 ? 
+        my_putstr("\033[1;32m[mysh@localhost ~]$\033[1;37m ") : 0;
+        return;
     }
-    return 0;
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] == '/')
+            k = i;
+    k++;
+    isatty(0) == 1 ? my_printf("\033[1;32m[%s@localhost %s]$\033[1;37m ",
+    my_getenv(env, "USER"), k > 1 ? &str[k] : "~") : 0;
 }
 
 int set_cmd(char **tab, int *operator, char **env, int *save_std)
