@@ -59,12 +59,12 @@ int exec_cmd(char *buffer, char **env)
     save_std[OUT] = dup(STDOUT_FILENO);
     if (null_cmd(buffer) == -1 || error_op(operator) == -1)
         return -1;
-    buffer = strtok(buffer, ";|><\n");
+    buffer = strtok(buffer, ";|><&\n");
     for (int i = 0; buffer != NULL; i++) {
         tab = my_str_to_word_array(buffer);
         tab = globbing(tab);
         set_cmd(tab, &operator[i], env, save_std);
-        buffer = strtok(NULL, ";|><\n");
+        buffer = strtok(NULL, ";|><&\n");
     }
     return 0;
 }

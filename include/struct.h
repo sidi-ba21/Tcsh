@@ -29,7 +29,13 @@ static const cmd tabcmd[6] =
     {"unset", &unset_loc},
 };
 
-typedef enum operator_s {
+typedef struct operator_s
+{
+    char *sep;
+    int op;
+}operator_t;
+
+typedef enum operator {
     END = 0,
     SEMICOLON,
     PIPE,
@@ -37,7 +43,22 @@ typedef enum operator_s {
     REDIRECTION_OUT2,
     REDIRECTION_IN1,
     REDIRECTION_IN2,
-}operator_t;
+    AND,
+    OR,
+}operator;
+
+static const operator_t tabop[] =
+{
+    {";", SEMICOLON},
+    {"|", PIPE},
+    {">", REDIRECTION_OUT1},
+    {">>", REDIRECTION_OUT2},
+    {"<", REDIRECTION_IN1},
+    {"<<", REDIRECTION_IN2},
+    {"&&", AND},
+    {"||", OR},
+    {NULL, 0},
+};
 
 typedef enum port_s {
     IN = 0,
