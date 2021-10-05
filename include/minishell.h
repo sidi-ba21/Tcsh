@@ -10,13 +10,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <string.h>
 #include "struct.h"
 #include "my.h"
 
 #ifndef MINISHELL_H_
 #define MINISHELL_H_
 
-int main(int ac, char **av, char **env);
 int my_sh(char **env);
 int check_path(char **tab, char **env);
 char *my_getenv(char **env, const char *name);
@@ -42,5 +43,8 @@ int set_pipe(int *operator);
 
 //redirection
 char **set_redirection(int *operator, char **tab, char **tmp);
+
+//globbing
+char **globbing(char **av);
 
 #endif

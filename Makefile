@@ -35,6 +35,8 @@ SRC_DIR		=	src/
 
 BUILTING_DIR	=	src/builting/
 
+GLOBBING_DIR	=	src/globbing/
+
 LIB_DIR		=	lib/my/
 
 TESTS_DIR	=	tests/
@@ -56,6 +58,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)execute.c					\
 			$(SRC_DIR)pipe.c					\
 			$(SRC_DIR)redirection.c				\
+			$(GLOBBING_DIR)globbing.c			\
 
 all:	$(NAME)
 
