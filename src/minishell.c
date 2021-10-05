@@ -31,6 +31,7 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
 {
     static char **tmp;
     static int k = 0;
+    int status = 0;
 
     set_pipe(operator);
     tab = set_redirection(operator, tab, tmp);
@@ -44,7 +45,7 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
     }
     if (operator[OUT] == SEMICOLON || operator[OUT] == END)
         for (; k > 0; k--)
-            wait(NULL);
+            seg_fault(status);
     operator[OUT] == SEMICOLON || operator[OUT] == END ? cmdexit(tab, env) : 0;
     dup2(save_std[IN], STDIN_FILENO);
     dup2(save_std[OUT], STDOUT_FILENO);

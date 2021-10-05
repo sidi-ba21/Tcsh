@@ -9,9 +9,9 @@
 #include <string.h>
 #include "minishell.h"
 
-void seg_fault(pid_t pid, int stat_loc)
+void seg_fault(int stat_loc)
 {
-    waitpid(pid, &stat_loc, 0);
+    wait(&stat_loc);
     if (WTERMSIG(stat_loc) == SIGSEGV)
         my_errorstr("Segmentation fault (core dumped)\n");
     if (!WIFSIGNALED(stat_loc) && WTERMSIG(stat_loc) == SIGSEGV)
