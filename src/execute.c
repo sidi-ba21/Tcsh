@@ -37,6 +37,7 @@ int check_path(char **tab, char **env)
 int simple_exec(char **tab, char **env)
 {
     pid_t pid = fork();
+    int stat_loc = 0;
 
     if (pid == -1)
         perror("fork");
@@ -44,10 +45,12 @@ int simple_exec(char **tab, char **env)
     if (pid == 0) {
         if (tab[0] && my_strcmp("exit", tab[0]) == 0)
             exit(0);
-        execve(tab[0], tab, env);
+        if (execve(tab[0], tab, env) == -1)
+            printf("yooooooo\n");
         my_errorstr(tab[0]);
         my_errorstr(": Command not found.\n");
         exit(0);
     }
+    seg_fault(pid, stat_loc);
     return 0;
 }
