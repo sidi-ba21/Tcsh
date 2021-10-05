@@ -12,14 +12,16 @@
 void seg_fault(int stat_loc)
 {
     wait(&stat_loc);
-    if (WTERMSIG(stat_loc) == SIGSEGV)
-        my_errorstr("Segmentation fault (core dumped)\n");
-    if (!WIFSIGNALED(stat_loc) && WTERMSIG(stat_loc) == SIGSEGV)
-        my_errorstr("Segmentation fault\n");
-    if (WTERMSIG(stat_loc) == SIGFPE)
-        my_errorstr("floating point exception (core dumped)\n");
-    if (!WIFSIGNALED(stat_loc) && WTERMSIG(stat_loc) == SIGFPE)
-        my_errorstr("floating point exception\n");
+    if (WIFSIGNALED(stat_loc)) {
+        if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
+            my_errorstr("Segmentation fault (core dumped)\n");
+        else if (WTERMSIG(stat_loc) == SIGSEGV)
+            my_errorstr("Segmentation fault\n");
+        if (WTERMSIG(stat_loc) == SIGFPE && WCOREDUMP(stat_loc))
+            my_errorstr("Floating exception (core dumped)\n");
+        else if (WTERMSIG(stat_loc) == SIGFPE)
+            my_errorstr("Floating exception\n");
+    }
 }
 
 int error_op(int *operator)
