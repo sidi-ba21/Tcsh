@@ -31,7 +31,7 @@ char **create_env(void);
 int reset_env(char **env);
 
 //handle_error
-void seg_fault(pid_t pid, int status);
+void seg_fault(int status);
 int error_op(int *operator);
 int null_cmd(char *buffer);
 

@@ -19,15 +19,18 @@ int get_cmd(char **strcmd, char **env)
 
 int check_path(char **tab, char **env)
 {
-    char **path = my_str_to_word_array(my_getenv(env, "PATH"));
+    char **path = my_getenv(env, "PATH") != NULL ?
+    my_str_to_word_array(my_getenv(env, "PATH")) : NULL;
     char *str = NULL;
 
-    if (tab[0] == NULL)
+    if (tab[0] == NULL || path == NULL)
         return -1;
     for (int i = 0; path[i]; i++) {
         str = my_strcat(my_strcat(path[i], "/"), tab[0]);
-        if (access(str, F_OK | X_OK) == 0) {
-            tab[0] = str;
+        if (access(str, F_OK | X_OK) == 0 ||
+        access(my_strcat("/", tab[0]), F_OK | X_OK) == 0) {
+            tab[0] = access(str, F_OK | X_OK) == 0 ? str :
+            my_strcat("/", tab[0]);
             return 1;
         }
     }
@@ -45,12 +48,11 @@ int simple_exec(char **tab, char **env)
     if (pid == 0) {
         if (tab[0] && my_strcmp("exit", tab[0]) == 0)
             exit(0);
-        if (execve(tab[0], tab, env) == -1)
-            printf("yooooooo\n");
+        execve(tab[0], tab, env);
         my_errorstr(tab[0]);
         my_errorstr(": Command not found.\n");
         exit(0);
     }
-    seg_fault(pid, stat_loc);
+    //seg_fault(pid, stat_loc);
     return 0;
 }
