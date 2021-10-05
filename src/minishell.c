@@ -15,7 +15,7 @@ void my_prompt(char **env)
     int k = 0;
 
     if (my_getenv(env, "USER") == NULL || str == NULL) {
-        isatty(0) == 1 ? 
+        isatty(0) == 1 ?
         my_putstr("\033[1;32m[mysh@localhost ~]$\033[1;37m ") : 0;
         return;
     }
@@ -39,10 +39,7 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
         tmp = tab;
         return 0;
     }
-    if (tab[0] && get_cmd(tab, env) != 1) {
-        simple_exec(tab, env);
-        k++;
-    }
+    (tab[0] && get_cmd(tab, env) != 1) ? (simple_exec(tab, env), k++) : k;
     if (operator[OUT] == SEMICOLON || operator[OUT] == END)
         for (; k > 0; k--)
             seg_fault(status);
