@@ -20,6 +20,14 @@ int get_cmd(char **strcmd, char **env)
     return 0;
 }
 
+static bool specified_path(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] == '/')
+            return (true);
+    return (false);
+}
+
 int check_path(char **tab, char **env)
 {
     char **path = my_getenv(env, "PATH") != NULL ?
@@ -28,6 +36,8 @@ int check_path(char **tab, char **env)
 
     if (tab[0] == NULL || path == NULL)
         return -1;
+    if (specified_path(tab[0]))
+        return (0);
     for (int i = 0; path[i]; i++) {
         str = my_strcat(my_strcat(path[i], "/"), tab[0]);
         if (access(str, F_OK | X_OK) == 0) {
