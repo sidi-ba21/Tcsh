@@ -48,7 +48,7 @@ int null_cmd(char *buffer)
     char *tmp = my_strdup(buffer);
 
     for (int i = 0; buffer[i]; i++) {
-        if (my_alphanum(buffer[i]) == 1)
+        if (my_alphanum(buffer[i]) == 1 || buffer[i] == '/')
             count++;
         if (buffer[i] == '|' || (buffer[i] == '<' && buffer[i + 1] != '<') ||
         (buffer[i] == '>' && buffer[i + 1] != '>') || buffer[i] == '\n')

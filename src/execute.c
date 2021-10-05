@@ -6,6 +6,9 @@
 */
 
 #include "minishell.h"
+#include "unistd.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 int get_cmd(char **strcmd, char **env)
 {
@@ -27,10 +30,8 @@ int check_path(char **tab, char **env)
         return -1;
     for (int i = 0; path[i]; i++) {
         str = my_strcat(my_strcat(path[i], "/"), tab[0]);
-        if (access(str, F_OK | X_OK) == 0 ||
-        access(my_strcat("/", tab[0]), F_OK | X_OK) == 0) {
-            tab[0] = access(str, F_OK | X_OK) == 0 ? str :
-            my_strcat("/", tab[0]);
+        if (access(str, F_OK | X_OK) == 0) {
+            tab[0] = str;
             return 1;
         }
     }
@@ -49,7 +50,11 @@ int simple_exec(char **tab, char **env)
             exit(0);
         execve(tab[0], tab, env);
         my_errorstr(tab[0]);
-        my_errorstr(": Command not found.\n");
+        if ((tab[0][0] == '/' || tab[0][my_strlen(tab[0]) - 1] == '/')
+        && opendir(tab[0]) != NULL)
+            my_errorstr(": Permission denied.\n");
+        else
+            my_errorstr(": Command not found.\n");
         exit(0);
     }
     return 0;
