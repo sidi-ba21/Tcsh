@@ -16,7 +16,7 @@ char **create_env(void)
     base_env[0] = my_strdup("PWD=");
     base_env[0] = my_strcat(base_env[0], getcwd(NULL, 0));
     base_env[1] = my_strdup("HOST=localhost.localdomain");
-    base_env[2] = my_strdup("PATH=/usr/bin:/bin:/usr");
+    base_env[2] = my_strdup("PATH=/usr/bin:/bin");
     base_env[3] = 0;
     return (base_env);
 }

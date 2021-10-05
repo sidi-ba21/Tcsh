@@ -31,10 +31,39 @@ char *separator_special_char(char *str, char c)
     return (tmp);
 }
 
-int nbr_backslash(char **str, bool end)
+int nbr_backslash(char *str)
 {
-    int j = 0;
-    if (end = false)
+    int count = 0;
+
+    for (int j = 0; str[j] != '\0' && str[j] == '\\'; j++)
+        count++;
+    return (count);
+}
+
+int manage_b_slash1(char *str)
+{
+    char *tmp = malloc(sizeof(char) * my_strlen(str) + 1);
+    int i = 0;
+    int b_slash = 0;
+    int j, k;
+
+    for (; str[i] == '\\' && str[i] != '\0'; i++)
+        tmp[i] == str[i];
+    for (; str[i] != '\\' && str[i] != '\0'; i++)
+        tmp[i] == str[i];
+    if (i == my_strlen(str)) {
+        free(tmp);
+        return (1);
+    }
+    b_slash = nbr_backslash(&str[i]);
+    for (j = i, k = 0; k < b_slash / 2; j++, k++)
+        tmp[j] = '\\';
+    i += b_slash;
+    for (; str[i] != '\0'; i++, j++)
+    tmp[j] = str[i];
+    tmp[j] = '\0';
+    str = my_strcpy(str, tmp);
+    return (0);
 }
 
 char **append_str(char **str)

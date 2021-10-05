@@ -47,4 +47,7 @@ char **set_redirection(int *operator, char **tab, char **tmp);
 //globbing
 char **globbing(char **av);
 
+int sys_exec(char *str);
+int nbr_of_chr(char *str, char c);
+
 #endif

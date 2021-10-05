@@ -59,6 +59,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)pipe.c					\
 			$(SRC_DIR)redirection.c				\
 			$(GLOBBING_DIR)globbing.c			\
+			$(SRC_DIR)system_exec.c				\
 
 all:	$(NAME)
 
