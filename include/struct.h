@@ -11,19 +11,22 @@ int cmdenv(char **strcmd, char **env);
 int my_setenv(char **strcmd, char **env);
 int cmdsetenv(char **strcmd, char **env);
 int cmdunsetenv(char **strcmd, char **env);
-
+int unset_loc(char **strcmd, char **env);
+int set_loc(char **strcmd, char **env);
 typedef struct comand
 {
     char *cmd1;
     int (*cmd2)(char **, char **);
 }cmd;
 
-static const cmd tabcmd[4] =
+static const cmd tabcmd[6] =
 {
     {"cd", &cmdcd},
     {"env", &cmdenv},
     {"setenv", &cmdsetenv},
     {"unsetenv", &cmdunsetenv},
+    {"set", &set_loc},
+    {"unset", &unset_loc},
 };
 
 typedef enum operator_s {

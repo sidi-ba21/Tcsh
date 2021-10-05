@@ -12,7 +12,7 @@
 
 int get_cmd(char **strcmd, char **env)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 6; i++)
         if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0) {
             tabcmd[i].cmd2(strcmd, env);
             return 1;
