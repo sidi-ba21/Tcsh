@@ -44,6 +44,9 @@ int set_pipe(int *operator);
 //redirection
 char **set_redirection(int *operator, char **tab, char **tmp);
 
+//history
+void update_history(char *cmd);
+
 //globbing
 char **globbing(char **av);
 
