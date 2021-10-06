@@ -14,6 +14,7 @@
 #include <string.h>
 #include "struct.h"
 #include "my.h"
+#include <errno.h>
 
 #ifndef MINISHELL_H_
 #define MINISHELL_H_
