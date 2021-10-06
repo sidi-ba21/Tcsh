@@ -60,6 +60,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)redirection.c				\
 			$(GLOBBING_DIR)globbing.c			\
 			$(SRC_DIR)system_exec.c				\
+			$(BUILTING_DIR)var_interpreter.c	\
 
 all:	$(NAME)
 
