@@ -67,7 +67,7 @@ int simple_exec(char **tab, char **env)
             my_errorstr(": Permission denied.\n");
         else
             my_errorstr(": Command not found.\n");
-        exit(0);
+        exit(1);
     }
     return 0;
 }
