@@ -19,8 +19,9 @@ static char **status_set(int stat_loc)
     return (str);
 }
 
-void seg_fault(int stat_loc)
+int seg_fault(void)
 {
+    int stat_loc = 0;
     char **s = status_set(stat_loc);
 
     wait(&stat_loc);
@@ -35,6 +36,7 @@ void seg_fault(int stat_loc)
         else if (WTERMSIG(stat_loc) == SIGFPE)
             my_errorstr("Floating exception\n");
     }
+    return WEXITSTATUS(stat_loc);
 }
 
 int error_op(int *operator)

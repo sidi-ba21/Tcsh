@@ -12,7 +12,7 @@
 
 char **set_redirection(int *operator, char **tab, char **tmp)
 {
-    int fd;
+    int fd = 0;
 
     if (operator[IN] == 3)
         fd = open(tab[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
@@ -22,7 +22,7 @@ char **set_redirection(int *operator, char **tab, char **tmp)
         dup2(fd, STDOUT_FILENO);
     if (operator[IN] == 5 || operator[IN] == 6)
         dup2(fd, STDIN_FILENO);
-    if (operator[IN] > 2) {
+    if (operator[IN] > 2 && operator[IN] < 7) {
         close(fd);
         return tmp;
     }

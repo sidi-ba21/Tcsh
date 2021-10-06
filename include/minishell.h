@@ -26,6 +26,7 @@ int simple_exec(char **tab, char **env);
 int get_exec(char **tmp, char **tab, int j);
 int get_cmd(char **strcmd, char **env);
 void my_prompt(char **env);
+bool logical_operator(int operator, int count, int stop, int *k);
 
 //env
 char **create_env(void);

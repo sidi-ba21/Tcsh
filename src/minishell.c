@@ -31,18 +31,25 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
 {
     static char **tmp;
     static int k = 0;
-    int status = 0;
+    static bool stop = false;
+    int count = 0;
 
     set_pipe(operator);
     tab = set_redirection(operator, tab, tmp);
-    if (operator[OUT] > 2) {
+    if (operator[OUT] > 2 && operator[OUT] < 7) {
         tmp = tab;
         return 0;
     }
-    k += get_cmd(tab, env);
-    if (operator[OUT] == SEMICOLON || operator[OUT] == END)
+    if (stop == false) {
+        count = get_cmd(tab, env);
+        count == -1 ? 0 : (k += count);
+    }
+    stop = logical_operator(operator[OUT], count, stop, &k);
+    if (operator[OUT] == SEMICOLON || operator[OUT] == END) {
+        stop = false;
         for (; k > 0; k--)
-            seg_fault(status);
+            seg_fault();
+    }
     operator[OUT] == SEMICOLON || operator[OUT] == END ? cmdexit(tab, env) : 0;
     dup2(save_std[IN], STDIN_FILENO);
     dup2(save_std[OUT], STDOUT_FILENO);
@@ -57,8 +64,8 @@ int exec_cmd(char *buffer, char **env)
 
     save_std[IN] = dup(STDIN_FILENO);
     save_std[OUT] = dup(STDOUT_FILENO);
-    if (null_cmd(buffer) == -1 || error_op(operator) == -1)
-        return -1;
+    //if (null_cmd(buffer) == -1 || error_op(operator) == -1)
+    //    return -1;
     buffer = strtok(buffer, ";|><&\n");
     for (int i = 0; buffer != NULL; i++) {
         tab = my_str_to_word_array(buffer);

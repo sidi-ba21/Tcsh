@@ -35,7 +35,7 @@ int cmdsetenv(char **strcmd, char **env)
     }
     if (i > 3) {
         my_errorstr("setenv: Too many arguments.\n");
-        return 0;
+        return -1;
     }
     return my_setenv(strcmd, env);
 }
