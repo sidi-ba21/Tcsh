@@ -76,7 +76,9 @@ char **globbing(char **av)
     char **tab = NULL;
     wordexp_t exp = {0};
 
-    for (int i = 0; av && av[i]; i++) {
+    if (!*av)
+        return av;
+    for (int i = 0; av[i] != NULL; i++) {
         if (!is_chr_in_str(av[i])) {
             tab = cat_simple_array(tab, av[i]);
             continue;

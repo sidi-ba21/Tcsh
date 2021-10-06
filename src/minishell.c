@@ -39,7 +39,7 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
         tmp = tab;
         return 0;
     }
-    (tab[0] && get_cmd(tab, env) != 1) ? (simple_exec(tab, env), k++) : k;
+    k += get_cmd(tab, env);
     if (operator[OUT] == SEMICOLON || operator[OUT] == END)
         for (; k > 0; k--)
             seg_fault(status);

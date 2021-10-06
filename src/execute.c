@@ -15,9 +15,11 @@ int get_cmd(char **strcmd, char **env)
     for (int i = 0; i < 4; i++)
         if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0) {
             tabcmd[i].cmd2(strcmd, env);
-            return 1;
+            return 0;
         }
-    return 0;
+    if (strcmd[0] != NULL)
+        simple_exec(strcmd, env);
+    return 1;
 }
 
 static bool specified_path(char *str)
