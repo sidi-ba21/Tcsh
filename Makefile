@@ -51,6 +51,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)handle_error.c			\
 			$(SRC_DIR)operator.c				\
 			$(BUILTING_DIR)env.c				\
+			$(BUILTING_DIR)history.c			\
 			$(BUILTING_DIR)setenv.c				\
 			$(BUILTING_DIR)unsetenv.c			\
 			$(BUILTING_DIR)cd.c					\

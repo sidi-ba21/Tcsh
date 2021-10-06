@@ -10,6 +10,7 @@ int cmdexit(char **strcmd, char **env);
 int cmdenv(char **strcmd, char **env);
 int my_setenv(char **strcmd, char **env);
 int cmdsetenv(char **strcmd, char **env);
+int disp_hist(char **strcmd, char **env);
 int cmdunsetenv(char **strcmd, char **env);
 int unset_loc(char **strcmd, char **env);
 int set_loc(char **strcmd, char **env);
@@ -19,7 +20,7 @@ typedef struct comand
     int (*cmd2)(char **, char **);
 }cmd;
 
-static const cmd tabcmd[6] =
+static const cmd tabcmd[7] =
 {
     {"cd", &cmdcd},
     {"env", &cmdenv},
@@ -27,6 +28,7 @@ static const cmd tabcmd[6] =
     {"unsetenv", &cmdunsetenv},
     {"set", &set_loc},
     {"unset", &unset_loc},
+    {"history", &disp_hist}
 };
 
 typedef struct operator_s

@@ -84,6 +84,7 @@ int my_sh(char **env)
 
     my_prompt(env);
     while (getline(&buffer, &bufsize, stdin) != -1) {
+        update_history(buffer);
         special_char(buffer) == true ? sys_exec(buffer) :
         exec_cmd(buffer, env);
         my_prompt(env);
