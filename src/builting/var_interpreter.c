@@ -11,6 +11,8 @@
 int set_loc(char **cmd, char **env)
 {
     (void)env;
+    if (cmd[1] == NULL)
+        return system(cmd[0]);
     for (int i = 1; cmd[i]; i++)
         putenv(cmd[i]);
     return (0);

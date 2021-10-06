@@ -9,9 +9,22 @@
 #include <string.h>
 #include "minishell.h"
 
+static char **status_set(int stat_loc)
+{
+    char **str = malloc(sizeof(char *) * 3);
+
+    str[0] = my_strdup("set");
+    str[1] = my_strdup(my_strcat("status=", my_nbrtostr(stat_loc)));
+    str[2] = NULL;
+    return (str);
+}
+
 void seg_fault(int stat_loc)
 {
+    char **s = status_set(stat_loc);
+
     wait(&stat_loc);
+    set_loc(s, NULL);
     if (WIFSIGNALED(stat_loc)) {
         if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
             my_errorstr("Segmentation fault (core dumped)\n");
