@@ -7,6 +7,8 @@
 
 #include "minishell.h"
 
+int is_alpha(char *str, bool chr_eq);
+
 int my_setenv(char **strcmd, char **env)
 {
     int i = 0;
@@ -27,6 +29,7 @@ int my_setenv(char **strcmd, char **env)
 int cmdsetenv(char **strcmd, char **env)
 {
     int i = 0;
+    int error = is_alpha(strcmd[1], true);
 
     for (; strcmd[i]; i++);
     if (i == 1) {
@@ -37,5 +40,11 @@ int cmdsetenv(char **strcmd, char **env)
         my_errorstr("setenv: Too many arguments.\n");
         return 0;
     }
+    if (error == 1)
+        return (my_errorstr("set: Variable name must begin "),
+        my_errorstr("with a letter.\n"));
+    else if (error == 2)
+        return (my_errorstr("set: Variable name must contain "),
+        my_errorstr("alphanumeric characters.\n"));
     return my_setenv(strcmd, env);
 }
