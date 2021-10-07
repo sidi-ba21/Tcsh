@@ -9,7 +9,7 @@
 #include <string.h>
 #include "minishell.h"
 
-static char **status_set(int stat_loc)
+char **status_set(int stat_loc)
 {
     char **str = malloc(sizeof(char *) * 3);
 
@@ -21,9 +21,10 @@ static char **status_set(int stat_loc)
 
 void seg_fault(int stat_loc)
 {
-    char **s = status_set(stat_loc);
+    char **s = NULL;
 
     wait(&stat_loc);
+    s = status_set(WEXITSTATUS(stat_loc));
     set_loc(s, NULL);
     if (WIFSIGNALED(stat_loc)) {
         if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
