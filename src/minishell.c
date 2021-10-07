@@ -9,6 +9,8 @@
 #include <string.h>
 #include "minishell.h"
 
+char *modify_str(char *str);
+
 void my_prompt(char **env)
 {
     char *str = my_getenv(env, "PWD");
@@ -72,8 +74,8 @@ int exec_cmd(char *buffer, char **env)
 static bool special_char(char *str)
 {
     for (int i = 0; str[i] != '\0'; i++)
-        if (str[i] == '`' || str[i] == '(' || str[i] == '\\' || str[i] == '$'
-        || str[i] == '\'' || str[i] == '"')
+        if (str[i] == '`' || str[i] == '(' || str[i] == '\\' || str[i] == '\''
+        || str[i] == '"' || (str[i] == '$'))
             return (true);
     return (false);
 }
@@ -86,6 +88,7 @@ int my_sh(char **env)
     my_prompt(env);
     while (getline(&buffer, &bufsize, stdin) != -1) {
         update_history(buffer);
+        buffer = modify_str(buffer);
         special_char(buffer) == true ? sys_exec(buffer) :
         exec_cmd(buffer, env);
         my_prompt(env);

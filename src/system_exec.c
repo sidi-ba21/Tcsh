@@ -8,6 +8,8 @@
 #include "minishell.h"
 #include "my.h"
 
+char **status_set(int stat_loc);
+
 int nbr_of_chr(char *str, char c)
 {
     int count = 0;
@@ -28,6 +30,6 @@ int sys_exec(char *str)
         fprintf(stderr, "Too many ('s.\n");
         return (-1);
     }
-    system(str);
+    set_loc(status_set(WEXITSTATUS(system(str))), NULL);
     return (0);
 }
