@@ -52,6 +52,9 @@ int set_redirection(int *operator, char ***tab, char ***tmp);
 //history
 void update_history(char *cmd);
 
+//alias
+char *replace_cmd_with_alias(char *str);
+
 //globbing
 char **globbing(char **av);
 

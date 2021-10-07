@@ -36,7 +36,8 @@ char **my_str_to_word_array_delim(char const *str, char *delim)
 
     for (int i = 0; i < my_strlen(str); i += j+1, k++) {
         for (j = 0; str[i + j] && delimiter(str[i + j], delim) == 0; j++);
-        tab[k] = malloc(sizeof(char) * j + 1);
+        tab[k] = malloc(sizeof(char) * (j + 1));
+        tab[k][j] = 0;
         my_strncpy(tab[k], &str[i], j);
     }
     tab[k] = NULL;
