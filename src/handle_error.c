@@ -19,23 +19,21 @@ char **status_set(int stat_loc)
     return (str);
 }
 
-int seg_fault(void)
+pid_t seg_fault(int *stat_loc)
 {
-    char **s = NULL;
-    int stat_loc = 0;
+    pid_t pid = wait(stat_loc);
+    char **tab = status_set(WEXITSTATUS(*stat_loc));
 
-    wait(&stat_loc);
-    s = status_set(WEXITSTATUS(stat_loc));
-    set_loc(s, NULL);
-    if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
+    set_loc(tab, NULL);
+    if (WTERMSIG(*stat_loc) == SIGSEGV && WCOREDUMP(*stat_loc))
         my_errorstr("Segmentation fault (core dumped)\n");
-    else if (WTERMSIG(stat_loc) == SIGSEGV)
+    else if (WTERMSIG(*stat_loc) == SIGSEGV)
         my_errorstr("Segmentation fault\n");
-    if (WTERMSIG(stat_loc) == SIGFPE && WCOREDUMP(stat_loc))
+    if (WTERMSIG(*stat_loc) == SIGFPE && WCOREDUMP(*stat_loc))
         my_errorstr("Floating exception (core dumped)\n");
-    else if (WTERMSIG(stat_loc) == SIGFPE)
+    else if (WTERMSIG(*stat_loc) == SIGFPE)
         my_errorstr("Floating exception\n");
-    return WEXITSTATUS(stat_loc);
+    return pid;
 }
 
 int error_op(int *operator)

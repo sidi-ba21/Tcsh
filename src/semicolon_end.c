@@ -9,9 +9,11 @@
 
 int semicolon_end(int operator, bool *stop)
 {
+    int stat_loc = 0;
+
     if (operator == SEMICOLON || operator == END) {
         *stop = false;
-        while (seg_fault() > 0);
+        while (seg_fault(&stat_loc) > 0);
     }
     return 0;
 }
