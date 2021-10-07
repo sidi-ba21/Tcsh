@@ -18,6 +18,8 @@
 #ifndef MINISHELL_H_
 #define MINISHELL_H_
 
+#define secur_path  "/usr/local/bin:/usr/bin"
+
 int my_sh(char **env);
 int check_path(char **tab, char **env);
 char *my_getenv(char **env, const char *name);
