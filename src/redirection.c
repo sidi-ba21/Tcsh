@@ -10,21 +10,25 @@
 #include <fcntl.h>
 #include "minishell.h"
 
-char **set_redirection(int *operator, char **tab, char **tmp)
+int set_redirection(int *operator, char ***tab, char ***tmp)
 {
-    int fd;
+    int fd = 0;
 
     if (operator[IN] == 3)
-        fd = open(tab[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+        fd = open(*tab[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
     if (operator[IN] == 4 || operator[IN] == 6 || operator[IN] == 5)
-        fd = open(tab[0], O_RDWR | O_CREAT | O_APPEND, 0664);
+        fd = open(*tab[0], O_RDWR | O_CREAT | O_APPEND, 0664);
     if (operator[IN] == 3 || operator[IN] == 4)
         dup2(fd, STDOUT_FILENO);
     if (operator[IN] == 5 || operator[IN] == 6)
         dup2(fd, STDIN_FILENO);
-    if (operator[IN] > 2) {
+    if (operator[IN] > 2 && operator[IN] < 7) {
         close(fd);
-        return tmp;
+        *tab = *tmp;
     }
-    return tab;
+    if (operator[OUT] > 2 && operator[OUT] < 7) {
+        *tmp = *tab;
+        return 1;
+    }
+    return 0;
 }

@@ -32,19 +32,15 @@ void my_prompt(char **env)
 int set_cmd(char **tab, int *operator, char **env, int *save_std)
 {
     static char **tmp;
-    static int k = 0;
-    int status = 0;
+    static bool stop = false;
+    int count = 0;
 
     set_pipe(operator);
-    tab = set_redirection(operator, tab, tmp);
-    if (operator[OUT] > 2) {
-        tmp = tab;
-        return 0;
-    }
-    k += get_cmd(tab, env);
-    if (operator[OUT] == SEMICOLON || operator[OUT] == END)
-        for (; k > 0; k--)
-            seg_fault(status);
+    count = set_redirection(operator, &tab, &tmp);
+    if (count == 0 && stop == false)
+        count = get_cmd(tab, env);
+    logical_operator(operator[OUT], count, &stop);
+    semicolon_end(operator[OUT], &stop);
     operator[OUT] == SEMICOLON || operator[OUT] == END ? cmdexit(tab, env) : 0;
     dup2(save_std[IN], STDIN_FILENO);
     dup2(save_std[OUT], STDOUT_FILENO);

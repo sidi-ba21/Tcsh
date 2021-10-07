@@ -19,23 +19,23 @@ char **status_set(int stat_loc)
     return (str);
 }
 
-void seg_fault(int stat_loc)
+int seg_fault(void)
 {
     char **s = NULL;
+    int stat_loc = 0;
 
     wait(&stat_loc);
     s = status_set(WEXITSTATUS(stat_loc));
     set_loc(s, NULL);
-    if (WIFSIGNALED(stat_loc)) {
-        if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
-            my_errorstr("Segmentation fault (core dumped)\n");
-        else if (WTERMSIG(stat_loc) == SIGSEGV)
-            my_errorstr("Segmentation fault\n");
-        if (WTERMSIG(stat_loc) == SIGFPE && WCOREDUMP(stat_loc))
-            my_errorstr("Floating exception (core dumped)\n");
-        else if (WTERMSIG(stat_loc) == SIGFPE)
-            my_errorstr("Floating exception\n");
-    }
+    if (WTERMSIG(stat_loc) == SIGSEGV && WCOREDUMP(stat_loc))
+        my_errorstr("Segmentation fault (core dumped)\n");
+    else if (WTERMSIG(stat_loc) == SIGSEGV)
+        my_errorstr("Segmentation fault\n");
+    if (WTERMSIG(stat_loc) == SIGFPE && WCOREDUMP(stat_loc))
+        my_errorstr("Floating exception (core dumped)\n");
+    else if (WTERMSIG(stat_loc) == SIGFPE)
+        my_errorstr("Floating exception\n");
+    return WEXITSTATUS(stat_loc);
 }
 
 int error_op(int *operator)
@@ -57,20 +57,8 @@ int error_op(int *operator)
 
 int null_cmd(char *buffer)
 {
-    int count = 0;
+    (void) buffer;
     int null_cmd = 0;
-    char *tmp = my_strdup(buffer);
 
-    for (int i = 0; buffer[i]; i++) {
-        if (my_alphanum(buffer[i]) == 1 || buffer[i] == '/')
-            count++;
-        if (buffer[i] == '|' || (buffer[i] == '<' && buffer[i + 1] != '<') ||
-        (buffer[i] == '>' && buffer[i + 1] != '>') || buffer[i] == '\n')
-            count == 0 ? null_cmd++ : (count = 0);
-    }
-    if (strtok(tmp, "; \t\n") != NULL && null_cmd > 0) {
-        my_errorstr("Invalid null command.\n");
-        return -1;
-    }
-    return 0;
+    return null_cmd;
 }

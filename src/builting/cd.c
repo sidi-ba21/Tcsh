@@ -20,6 +20,7 @@ int my_cd(char *strcmd)
             my_errorstr(": Not a directory.\n");
         else
             my_errorstr(": No such file or directory.\n");
+        return -1;
     }
     return 0;
 }
@@ -31,7 +32,7 @@ int cmdcd(char **strcmd, char **env)
     for (; strcmd[i]; i++);
     if (i > 2) {
         my_errorstr("cd: Too many arguments.\n");
-        return (0);
+        return -1;
     }
     if (strcmd[1] == NULL) {
         if (chdir(my_getenv(env, "HOME")) == -1)
@@ -42,7 +43,7 @@ int cmdcd(char **strcmd, char **env)
             my_errorstr(": No such file or directory.\n");
     }
     else
-        my_cd(strcmd[1]);
+        return my_cd(strcmd[1]);
     reset_env(env);
-    return (0);
+    return 0;
 }

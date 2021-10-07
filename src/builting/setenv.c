@@ -38,7 +38,7 @@ int cmdsetenv(char **strcmd, char **env)
     }
     if (i > 3) {
         my_errorstr("setenv: Too many arguments.\n");
-        return 0;
+        return -1;
     }
     if (error == 1)
         return (my_errorstr("set: Variable name must begin "),

@@ -15,7 +15,7 @@ int cmdunsetenv(char **strcmd, char **env)
 
     if (strcmd[1] == NULL) {
         my_errorstr("unsetenv: Too few arguments.\n");
-        return 0;
+        return -1;
     }
     for (; env[i]; i++) {
         for (count = 0; strcmd[count] &&
