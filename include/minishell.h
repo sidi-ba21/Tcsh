@@ -26,7 +26,8 @@ int simple_exec(char **tab, char **env);
 int get_exec(char **tmp, char **tab, int j);
 int get_cmd(char **strcmd, char **env);
 void my_prompt(char **env);
-bool logical_operator(int operator, int count, int stop, int *k);
+int logical_operator(int operator, int count, bool *stop);
+int semicolon_end(int operator, bool *stop);
 
 //env
 char **create_env(void);
@@ -44,7 +45,7 @@ int *get_operator(char *buffer);
 int set_pipe(int *operator);
 
 //redirection
-char **set_redirection(int *operator, char **tab, char **tmp);
+int set_redirection(int *operator, char ***tab, char ***tmp);
 
 //history
 void update_history(char *cmd);
