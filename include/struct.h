@@ -14,13 +14,15 @@ int disp_hist(char **strcmd, char **env);
 int cmdunsetenv(char **strcmd, char **env);
 int unset_loc(char **strcmd, char **env);
 int set_loc(char **strcmd, char **env);
+int update_alias(char **strcmd, char **env);
+
 typedef struct comand
 {
     char *cmd1;
     int (*cmd2)(char **, char **);
-}cmd;
+} cmd;
 
-static const cmd tabcmd[7] =
+static const cmd tabcmd[8] =
 {
     {"cd", &cmdcd},
     {"env", &cmdenv},
@@ -28,7 +30,8 @@ static const cmd tabcmd[7] =
     {"unsetenv", &cmdunsetenv},
     {"set", &set_loc},
     {"unset", &unset_loc},
-    {"history", &disp_hist}
+    {"history", &disp_hist},
+    {"alias", &update_alias}
 };
 
 typedef struct operator_s
