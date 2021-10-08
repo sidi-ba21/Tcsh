@@ -79,21 +79,16 @@ int disp_hist(char **strcmd, char **env __attribute__((unused)))
 
 void update_history(char *cmd)
 {
-    static int pos = 1;
-    int fd = open(".hist", O_RDWR | O_CREAT | O_APPEND, 0664);
-    char *strpos = my_nbrtostr(pos);
+    FILE *fd = fopen(".hist", "a");
     time_t t = time(NULL);
-    struct tm tom = *localtime(&t);
+    char s[100];
+    int pos = 0;
+    size_t bufsize = 0;
+    char *buffer = NULL;
 
-    write(fd, "     ", 5);
-    write(fd, strpos, my_strlen(strpos));
-    write(fd, "  ", 2);
-    write(fd, my_strcat(my_nbrtostr(tom.tm_hour), ":"),
-    my_strlen(my_nbrtostr(tom.tm_hour)) + 1);
-    write(fd, my_nbrtostr(tom.tm_min), my_strlen(my_nbrtostr(tom.tm_min)));
-    write(fd, "   ", 3);
-    write(fd, cmd, my_strlen(cmd));
-    free(strpos);
-    close(fd);
-    pos += 1;
+    while (getline(&buffer, &bufsize, fd) != -1)
+        pos++;
+    strftime(s, sizeof(s), "%H:%M", localtime(&t));
+    fprintf(fd, "    %d  %s  %s", pos, s, cmd);
+    fclose(fd);
 }

@@ -63,8 +63,8 @@ int simple_exec(char **tab, char **env)
         if ((tab[0][0] == '/' || tab[0][my_strlen(tab[0]) - 1] == '/')
         && opendir(tab[0]) != NULL)
             my_errorstr(": Permission denied.\n");
-        else if (errno == 13)
-            my_errorstr(": Permission denied.\n");
+        else if (errno == ENOEXEC)
+            my_errorstr(": Exec format error. Wrong Architecture.\n");
         else
             my_errorstr(": Command not found.\n");
         exit(1);
