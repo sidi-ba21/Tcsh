@@ -23,7 +23,7 @@ static char **recup_hist(void)
 {
     struct stat sts;
     char **tab = NULL;
-    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.hist");
+    char *str = my_strcat("/tmp", "/.hist");
     int fd = open(str, O_RDONLY);
     char *temp = NULL;
 
@@ -81,7 +81,7 @@ int disp_hist(char **strcmd, char **env __attribute__((unused)))
 
 void update_history(char *cmd)
 {
-    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.hist");
+    char *str = my_strcat("/tmp", "/.hist");
     FILE *fd = fopen(str, "a");
     time_t t = time(NULL);
     char s[100];
