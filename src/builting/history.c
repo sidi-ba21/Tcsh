@@ -23,14 +23,16 @@ static char **recup_hist(void)
 {
     struct stat sts;
     char **tab = NULL;
-    int fd = open(".hist", O_RDONLY);
+    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.hist");
+    int fd = open(str, O_RDONLY);
     char *temp = NULL;
 
-    stat(".hist", &sts);
+    stat(str, &sts);
     temp = malloc(sizeof(char) * (sts.st_size + 1));
     read(fd, temp, sts.st_size);
     tab = my_str_to_word_array_delim(temp, "\n");
     free(temp);
+    close(fd);
     return tab;
 }
 
@@ -79,7 +81,8 @@ int disp_hist(char **strcmd, char **env __attribute__((unused)))
 
 void update_history(char *cmd)
 {
-    FILE *fd = fopen(".hist", "a");
+    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.hist");
+    FILE *fd = fopen(str, "a");
     time_t t = time(NULL);
     char s[100];
     int pos = 0;

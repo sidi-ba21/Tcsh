@@ -17,8 +17,9 @@ static int disp_alias(int fd)
     struct stat sts;
     char *temp = NULL;
     char **tab = NULL;
+    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.alias42");
 
-    stat(".alias", &sts);
+    stat(str, &sts);
     temp = malloc(sizeof(char) * (sts.st_size + 1));
     read(fd, temp, sts.st_size);
     tab = my_str_to_word_array_delim(temp, ";\n");
@@ -35,7 +36,8 @@ static int disp_alias(int fd)
 
 int update_alias(char **strcmd, char **env __attribute__((unused)))
 {
-    int fd = open(".alias", O_RDWR | O_CREAT | O_APPEND, 0664);
+    char *str = my_strcat(my_strcat("/home/", getlogin()), "/.alias42");
+    int fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0664);
     int size = 0;
 
     for (; strcmd[size]; ++size);
@@ -90,7 +92,8 @@ char *replace_cmd_with_alias(char *str)
 {
     size_t ssize;
     char *temp = NULL;
-    FILE *alias = fopen(".alias", "r");
+    char *path = my_strcat(my_strcat("/home/", getlogin()), "/.alias42");
+    FILE *alias = fopen(path, "r");
     char **tab = my_str_to_word_array_delim(str, " \t");
 
     if (alias == NULL)
@@ -103,5 +106,6 @@ char *replace_cmd_with_alias(char *str)
             }
         }
     }
+    fclose(alias);
     return str;
 }
