@@ -36,7 +36,7 @@ int reset_env(char **env);
 //handle_error
 pid_t seg_fault(int *stat_loc);
 int error_op(int *operator);
-int null_cmd(char *buffer);
+int null_cmd(char *buffer, int *operator);
 
 //operator
 int *get_operator(char *buffer);

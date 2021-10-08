@@ -55,7 +55,7 @@ int exec_cmd(char *buffer, char **env)
 
     save_std[IN] = dup(STDIN_FILENO);
     save_std[OUT] = dup(STDOUT_FILENO);
-    if (null_cmd(buffer) == -1 || error_op(operator) == -1)
+    if (null_cmd(buffer, operator) == -1 || error_op(operator) == -1)
         return -1;
     buffer = strtok(buffer, ";|><&\n");
     for (int i = 0; buffer != NULL; i++) {

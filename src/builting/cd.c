@@ -12,19 +12,6 @@
 #include <unistd.h>
 #include "minishell.h"
 
-int my_cd(char *strcmd)
-{
-    if (chdir(strcmd) == -1) {
-        my_errorstr(strcmd);
-        if (access(strcmd, F_OK) == 0)
-            my_errorstr(": Not a directory.\n");
-        else
-            my_errorstr(": No such file or directory.\n");
-        return -1;
-    }
-    return 0;
-}
-
 int cmdcd(char **strcmd, char **env)
 {
     int i = 0;
@@ -42,8 +29,9 @@ int cmdcd(char **strcmd, char **env)
         if (chdir(my_getenv(env, "OLDPWD")) == -1)
             my_errorstr(": No such file or directory.\n");
     }
-    else
-        return my_cd(strcmd[1]);
-    reset_env(env);
-    return 0;
+    if (chdir(strcmd[1]) == -1) {
+        dprintf(2, "%s: %s.\n", strcmd[1], strerror(errno));
+        return -1;
+    }
+    return reset_env(env);
 }

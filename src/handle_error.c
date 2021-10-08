@@ -6,7 +6,6 @@
 */
 
 #include <signal.h>
-#include <string.h>
 #include "minishell.h"
 
 char **status_set(int stat_loc)
@@ -53,10 +52,33 @@ int error_op(int *operator)
     return 0;
 }
 
-int null_cmd(char *buffer)
+int my_str_iscmd(char const *str)
 {
-    (void) buffer;
-    int null_cmd = 0;
+    for (int i = 0; str[i]; i++)
+        if (str[i] > 32 && str[i] <= 126)
+            return 1;
+    return 0;
+}
 
-    return null_cmd;
+int null_cmd(char *buffer, int *operator)
+{
+    char *str = strtok(my_strdup(buffer), ";|><&\n");
+
+    for (int i = 0; operator[i] != 0; i++, str = strtok(NULL, ";|><&\n")) {
+        if (str != NULL && my_str_iscmd(str) == 1)
+            continue ;
+        if (operator[i] == PIPE || operator[i] == OR) {
+            puts("Invalid null command.");
+            return -1;
+        }
+        if (operator[i] > 2 && operator[i] < 7) {
+            puts("Missing name for redirect.");
+            return -1;
+        }
+        if (operator[i+1] > 1 && operator[i+1] < 8) {
+            puts("Invalid null command.");
+            return -1;
+        }
+    }
+    return 0;
 }
