@@ -21,6 +21,9 @@
 
 #define secur_path  "/usr/local/bin:/usr/bin"
 
+//static const char *clear_term = "\e[1;1H\e[2J";
+
+void signal_handle(void);
 int my_sh(char **env);
 int check_path(char **tab, char **env);
 char *my_getenv(char **env, const char *name);
@@ -34,6 +37,7 @@ int semicolon_end(int operator, bool *stop);
 //env
 char **create_env(void);
 int reset_env(char **env);
+char *modify_str(char *str);
 
 //handle_error
 pid_t seg_fault(int *stat_loc);

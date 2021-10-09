@@ -29,7 +29,7 @@ int my_setenv(char **strcmd, char **env)
 int cmdsetenv(char **strcmd, char **env)
 {
     int i = 0;
-    int error = is_alpha(strcmd[1], true);
+    int error = 0;
 
     for (; strcmd[i]; i++);
     if (i == 1) {
@@ -40,6 +40,7 @@ int cmdsetenv(char **strcmd, char **env)
         my_errorstr("setenv: Too many arguments.\n");
         return -1;
     }
+    error = is_alpha(strcmd[1], true);
     if (error == 1)
         return (my_errorstr("set: Variable name must begin "),
         my_errorstr("with a letter.\n"));

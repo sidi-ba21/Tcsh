@@ -8,8 +8,9 @@
 #include <unistd.h>
 #include <string.h>
 #include "minishell.h"
+#include <signal.h>
 
-char *modify_str(char *str);
+void handle_sigint(int sig);
 
 void my_prompt(char **env)
 {
@@ -83,7 +84,9 @@ int my_sh(char **env)
     char *buffer = NULL;
 
     my_prompt(env);
+    signal_handle();
     while (getline(&buffer, &bufsize, stdin) != -1) {
+        signal_handle();
         update_history(buffer);
         buffer = modify_str(buffer);
         special_char(buffer) == true ? sys_exec(buffer) :
