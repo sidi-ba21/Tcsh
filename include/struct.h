@@ -48,8 +48,8 @@ typedef enum operator {
     REDIRECTION_OUT2,
     REDIRECTION_IN1,
     REDIRECTION_IN2,
-    AND,
     OR,
+    AND,
 }operator;
 
 static const operator_t tabop[] =
