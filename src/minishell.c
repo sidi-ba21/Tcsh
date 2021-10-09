@@ -38,13 +38,14 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
 
     set_pipe(operator);
     count = set_redirection(operator, &tab, &tmp);
-    if (count == 0 && stop == false)
+    if (count == 0 && stop == false) {
         count = get_cmd(tab, env);
+        dup2(save_std[IN], STDIN_FILENO);
+        dup2(save_std[OUT], STDOUT_FILENO);
+    }
     logical_operator(operator[OUT], count, &stop);
     semicolon_end(operator[OUT], &stop);
     operator[OUT] == SEMICOLON || operator[OUT] == END ? cmdexit(tab, env) : 0;
-    dup2(save_std[IN], STDIN_FILENO);
-    dup2(save_std[OUT], STDOUT_FILENO);
     return 0;
 }
 
@@ -93,5 +94,6 @@ int my_sh(char **env)
         exec_cmd(buffer, env);
         my_prompt(env);
     }
+    putchar('\n');
     return 0;
 }
