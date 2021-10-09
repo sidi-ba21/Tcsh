@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include "minishell.h"
 
-int cmdcd(char **strcmd, char **env)
+int error_cd(char **strcmd)
 {
     int i = 0;
 
@@ -21,6 +21,13 @@ int cmdcd(char **strcmd, char **env)
         my_errorstr("cd: Too many arguments.\n");
         return -1;
     }
+    return (0);
+}
+
+int cmdcd(char **strcmd, char **env)
+{
+    if (error_cd(strcmd) == -1)
+        return (-1);
     if (strcmd[1] == NULL) {
         if (chdir(my_getenv(env, "HOME")) == -1)
             my_errorstr("cd: No home directory.\n");
@@ -29,9 +36,11 @@ int cmdcd(char **strcmd, char **env)
         if (chdir(my_getenv(env, "OLDPWD")) == -1)
             my_errorstr(": No such file or directory.\n");
     }
-    if (chdir(strcmd[1]) == -1) {
-        dprintf(2, "%s: %s.\n", strcmd[1], strerror(errno));
-        return -1;
+    else {
+        if (chdir(strcmd[1]) == -1) {
+            dprintf(2, "%s: %s.\n", strcmd[1], strerror(errno));
+            return -1;
+        }
     }
     return reset_env(env);
 }
