@@ -12,7 +12,7 @@
 
 int get_cmd(char **strcmd, char **env)
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
         if (strcmd[0] && my_strcmp(tabcmd[i].cmd1, strcmd[0]) == 0)
             return tabcmd[i].cmd2(strcmd, env);
     if (strcmd[0] != NULL)
@@ -35,7 +35,7 @@ int check_path(char **tab, char **env)
     char *str = NULL;
 
     if (tab[0] == NULL || path == NULL)
-        return -1;
+        return (-1);
     path[0] == NULL ? path = my_str_to_word_array(secur_path) : 0;
     if (specified_path(tab[0]))
         return (0);
@@ -43,10 +43,10 @@ int check_path(char **tab, char **env)
         str = my_strcat(my_strcat(path[i], "/"), tab[0]);
         if (access(str, F_OK | X_OK) == 0) {
             tab[0] = str;
-            return 1;
+            return (1);
         }
     }
-    return 0;
+    return (0);
 }
 
 int simple_exec(char **tab, char **env)
