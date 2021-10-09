@@ -93,5 +93,6 @@ int my_sh(char **env)
         exec_cmd(buffer, env);
         my_prompt(env);
     }
+    printf("exit\n");
     return 0;
 }
