@@ -37,15 +37,15 @@ int set_cmd(char **tab, int *operator, char **env, int *save_std)
     int count = 0;
 
     set_pipe(operator);
-    count = set_redirection(operator, &tab, &tmp);
-    if (count == 0 && stop == false) {
+    if (set_redirection(operator, &tab, &tmp) == 1)
+        return 0;
+    if (stop == false)
         count = get_cmd(tab, env);
-        dup2(save_std[IN], STDIN_FILENO);
-        dup2(save_std[OUT], STDOUT_FILENO);
-    }
     logical_operator(operator[OUT], count, &stop);
     semicolon_end(operator[OUT], &stop);
     operator[OUT] == SEMICOLON || operator[OUT] == END ? cmdexit(tab, env) : 0;
+    dup2(save_std[IN], STDIN_FILENO);
+    dup2(save_std[OUT], STDOUT_FILENO);
     return 0;
 }
 
