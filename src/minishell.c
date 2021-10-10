@@ -61,8 +61,9 @@ int exec_cmd(char *buffer, char **env)
         return -1;
     buffer = strtok(buffer, ";|><&\n");
     for (int i = 0; buffer != NULL; i++) {
-        buffer = replace_cmd_with_alias(buffer);
-        tab = my_str_to_word_array(buffer);
+        while (if_alias_exist(buffer) == 1)
+            buffer = replace_cmd_with_alias(buffer);
+        tab = my_str_to_word_array(&buffer[0]);
         tab = globbing(tab);
         set_cmd(tab, &operator[i], env, save_std);
         buffer = strtok(NULL, ";|><&\n");

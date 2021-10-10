@@ -58,6 +58,7 @@ void update_history(char *cmd);
 
 //alias
 char *replace_cmd_with_alias(char *str);
+int if_alias_exist(char *str);
 
 //globbing
 char **globbing(char **av);

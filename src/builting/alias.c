@@ -56,56 +56,60 @@ int update_alias(char **strcmd, char **env __attribute__((unused)))
     return close(fd);
 }
 
-static char *replace_alias(char *target, char *replace)
+int if_alias_exist(char *str)
 {
-    int j = 0;
-    int cmt = 0;
-    char *res = calloc(my_strlen(target) + my_strlen(replace) + 1,
-    sizeof(char));
+    char **tmp = NULL;
+    char **ptr = NULL;
+    size_t ssize = 0;
+    char *temp = NULL;
+    char *path = my_strcat("/tmp", "/.alias42");
+    FILE *alias = fopen(path, "r");
 
-    for (int i = 0; i < my_strlen(target) + my_strlen(replace); i++) {
-        res[i] = target[cmt];
-        if (target[cmt] == replace[0]) {
-            for (j = 0; replace[j]; j++)
-                res[i + j] = replace[j];
-            i += j;
+    if (alias == NULL || str == NULL)
+        return (0);
+    ptr = my_str_to_word_array(str);
+    for (int gibline = getline(&temp, &ssize, alias); gibline != -1;
+    gibline = getline(&temp, &ssize, alias)) {
+        tmp = my_str_to_word_array_delim(temp, ";\n");
+        if (my_strcmp(ptr[0], tmp[0]) == 0) {
+            fclose(alias);
+            return (1);
         }
-        cmt++;
     }
-    return res;
+    fclose(alias);
+    return (0);
 }
 
-static char *trim_string(char *str)
+static char *replace_alias(char *str, char *alias)
 {
-    int column = 0;
-    char *res = calloc(my_strlen(str), sizeof(char));
+    char **tmp = NULL;
+    char **ptr = NULL;
+    char *new = NULL;
 
-    for (; str[column] && str[column] != ';'; ++column);
-    for (int i = column + 1; str[i]; i++)
-        res[i - column - 1] = str[i];
-    if (res[my_strlen(res) - 1] == 10)
-        res[my_strlen(res) - 1] = 0;
-    return res;
+    if (alias == NULL)
+        return (str);
+    ptr = my_str_to_word_array(str);
+    tmp = my_str_to_word_array_delim(alias, ";\n");
+    if (my_strcmp(ptr[0], tmp[0]) == 0) {
+        new = my_strcat(tmp[1], &str[my_strlen(tmp[0])]);
+        return (new);
+    }
+    return (str);
 }
 
 char *replace_cmd_with_alias(char *str)
 {
-    size_t ssize;
+    size_t ssize = 0;
     char *temp = NULL;
     char *path = my_strcat("/tmp", "/.alias42");
     FILE *alias = fopen(path, "r");
-    char **tab = my_str_to_word_array_delim(str, " \t");
 
     if (alias == NULL)
-        return str;
+        return (0);
     for (int gibline = getline(&temp, &ssize, alias); gibline != -1;
     gibline = getline(&temp, &ssize, alias)) {
-        for (int i = 0; tab[i]; i++) {
-            if (my_strncmp(temp, tab[i], my_strlen(tab[i])) == 0) {
-                str = replace_alias(str, trim_string(temp));
-            }
-        }
+        str = replace_alias(str, temp);
     }
     fclose(alias);
-    return str;
+    return (str);
 }
