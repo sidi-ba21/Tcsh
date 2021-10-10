@@ -35,7 +35,7 @@ int sys_exec(char *str)
         return (-1);
     }
     if (nbr_of_chr(str, '"') % 2 == 1) {
-        fprintf(stderr, "Unmatched '"'.\n");
+        fprintf(stderr, "Unmatched '\"'.\n");
         return (-1);
     }
     set_loc(status_set(WEXITSTATUS(system(str))), NULL);
