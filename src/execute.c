@@ -34,9 +34,9 @@ int check_path(char **tab, char **env)
     my_str_to_word_array(my_getenv(env, "PATH")) : NULL;
     char *str = NULL;
 
-    if (tab[0] == NULL || path == NULL)
+    path == NULL ? path = my_str_to_word_array(secur_path) : 0;
+    if (tab[0] == NULL || path[0] == NULL)
         return (-1);
-    path[0] == NULL ? path = my_str_to_word_array(secur_path) : 0;
     if (specified_path(tab[0]))
         return (0);
     for (int i = 0; path[i]; i++) {
