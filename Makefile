@@ -15,7 +15,7 @@ RM		=	rm -f
 
 GCOVR		=	gcovr
 
-LIB		=	-L./lib/my -lmy
+LIB		=	-L./lib/my -lmy -lncurses
 
 INC		=	-I./include
 
