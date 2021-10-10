@@ -1,42 +1,39 @@
 /*
 ** EPITECH PROJECT, 2021
-** 42sh
+** where
 ** File description:
 ** where
 */
 
 #include "minishell.h"
-#include <builtinslist.h>
-#include "my.h"
 #include <fcntl.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-static void check_builtins(char *str)
+int get_where(char *str, char **path)
 {
-    for (int j = 0; j < 67; j++) {
-        if (my_strcmp(builtins[j], str) == 0) {
-            my_printf("%s is a shell built-in\n", str);
-            return ;
+    char *tmp = NULL;
+    int j = 0;
+
+    for (int i = 0; path[i]; i++) {
+        tmp = my_strcat(my_strcat(path[i], "/"), str);
+        if (access(tmp, F_OK | X_OK) == 0) {
+            printf("%s\n", tmp);
+            j = 0;
         }
+        else
+            j = 1;
     }
-    return ;
+    return (j);
 }
 
-int cmdwhere(char **strcmd, char **env __attribute__((unused)))
+int cmdwhere(char **cmd, char **env)
 {
-    int size = 0;
+    char **path = my_str_to_word_array(secur_path);
+    int j = 0;
 
-    for (; strcmd[size]; ++size);
-    if (size < 2)
-        return my_putstr("where: Too few arguments.\n");
-    for (int i = 1; i != size; i++) {
-        check_builtins(strcmd[i]);
-        (open(my_strcat("/usr/bin/", strcmd[i]), O_RDONLY) != -1) ?
-        my_printf("/usr/bin/%s\n", strcmd[i]) : i;
-        (open(my_strcat("/bin/", strcmd[i]), O_RDONLY) != -1) ?
-        my_printf("/bin/%s\n", strcmd[i]) : i;
-    }
-    return 0;
+    (void) env;
+    if (cmd[1] == NULL)
+        return (my_errorstr("where: Too few arguments.\n"), 1);
+    for (int i = 1; cmd[i]; i++)
+        j = get_where(cmd[i], path);
+    return (j);
 }
