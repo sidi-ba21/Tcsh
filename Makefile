@@ -54,8 +54,6 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(BUILTING_DIR)alias.c				\
 			$(BUILTING_DIR)history.c			\
 			$(BUILTING_DIR)setenv.c				\
-			$(BUILTING_DIR)where.c				\
-			$(BUILTING_DIR)which.c				\
 			$(BUILTING_DIR)unsetenv.c			\
 			$(BUILTING_DIR)cd.c					\
 			$(BUILTING_DIR)exit.c				\
@@ -69,6 +67,8 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)logical_operator.c			\
 			$(SRC_DIR)semicolon_end.c		\
 			$(SRC_DIR)signal_handler.c		\
+			$(BUILTING_DIR)which.c			\
+			$(BUILTING_DIR)where.c			\
 
 all:	$(NAME)
 
