@@ -56,6 +56,8 @@ int set_redirection(int *operator, char ***tab, char ***tmp);
 //history
 void update_history(char *cmd);
 
+//where & which
+int check_builtins(char *str);
 //alias
 char *replace_cmd_with_alias(char *str);
 int if_alias_exist(char *str);
