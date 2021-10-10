@@ -19,7 +19,7 @@
 #ifndef MINISHELL_H_
 #define MINISHELL_H_
 
-#define secur_path  "/usr/bin:/usr/bin"
+#define secur_path  "/usr/bin:/bin"
 
 //static const char *clear_term = "\e[1;1H\e[2J";
 
