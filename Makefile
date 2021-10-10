@@ -57,6 +57,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(BUILTING_DIR)unsetenv.c			\
 			$(BUILTING_DIR)cd.c					\
 			$(BUILTING_DIR)exit.c				\
+			$(BUILTING_DIR)repeat.c				\
 			$(SRC_DIR)execute.c					\
 			$(SRC_DIR)pipe.c					\
 			$(SRC_DIR)redirection.c				\

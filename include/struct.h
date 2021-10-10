@@ -15,6 +15,7 @@ int cmdunsetenv(char **strcmd, char **env);
 int unset_loc(char **strcmd, char **env);
 int set_loc(char **strcmd, char **env);
 int update_alias(char **strcmd, char **env);
+int cmdrepeat(char **strcmd, char **env);
 int cmdwhich(char **cmd, char **env);
 int cmdwhere(char **cmd, char **env);
 
@@ -24,7 +25,7 @@ typedef struct comand
     int (*cmd2)(char **, char **);
 } cmd;
 
-static const cmd tabcmd[10] =
+static const cmd tabcmd[] =
 {
     {"cd", &cmdcd},
     {"env", &cmdenv},
@@ -35,7 +36,9 @@ static const cmd tabcmd[10] =
     {"which", &cmdwhich},
     {"where", &cmdwhere},
     {"history", &disp_hist},
-    {"alias", &update_alias}
+    {"alias", &update_alias},
+    {"repeat", &cmdrepeat},
+    {NULL, 0},
 };
 
 typedef struct operator_s
