@@ -12,25 +12,23 @@
 #include <stdio.h>
 #include "minishell.h"
 
-static int disp_alias(int fd)
+static int disp_alias(void)
 {
-    struct stat sts;
-    char *temp = NULL;
+    size_t size = 0;
+    char *buf = NULL;
     char **tab = NULL;
-    char *str = my_strcat("/tmp", "/.alias42");
+    FILE *alias = fopen("/tmp/.alias42", "r");
 
-    stat(str, &sts);
-    temp = malloc(sizeof(char) * (sts.st_size + 1));
-    read(fd, temp, sts.st_size);
-    tab = my_str_to_word_array_delim(temp, ";\n");
-    for (int i = 0; tab[i]; i += 2) {
-        my_putstr(tab[i]);
+    if (alias == NULL)
+        return (0);
+    for (int line = getline(&buf, &size, alias); line != -1;
+    line = getline(&buf, &size, alias)) {
+    tab = my_str_to_word_array_delim(buf, ";");
+        my_putstr(tab[0]);
         my_putchar('\t');
-        my_putstr(tab[i + 1]);
-        my_putchar('\n');
+        my_putstr(tab[1]);
     }
-    free(temp);
-    close(fd);
+    fclose(alias);
     return 0;
 }
 
@@ -42,8 +40,8 @@ int update_alias(char **strcmd, char **env __attribute__((unused)))
 
     for (; strcmd[size]; ++size);
     if (size == 1)
-        return disp_alias(fd);
-    if (size < 3)
+        return disp_alias();
+    if (size < 3 || fd < 0)
         return 0;
     write(fd, strcmd[1], my_strlen(strcmd[1]));
     write(fd, ";", 1);
