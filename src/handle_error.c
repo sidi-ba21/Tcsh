@@ -24,14 +24,18 @@ pid_t seg_fault(int *stat_loc)
     char **tab = status_set(WEXITSTATUS(*stat_loc));
 
     set_loc(tab, NULL);
-    if (WTERMSIG(*stat_loc) == SIGSEGV && WCOREDUMP(*stat_loc))
-        my_errorstr("Segmentation fault (core dumped)\n");
-    else if (WTERMSIG(*stat_loc) == SIGSEGV)
-        my_errorstr("Segmentation fault\n");
-    if (WTERMSIG(*stat_loc) == SIGFPE && WCOREDUMP(*stat_loc))
-        my_errorstr("Floating exception (core dumped)\n");
-    else if (WTERMSIG(*stat_loc) == SIGFPE)
-        my_errorstr("Floating exception\n");
+    WTERMSIG(*stat_loc) == SIGSEGV ? set_loc(status_set(139), NULL) : 0;
+    WTERMSIG(*stat_loc) == SIGFPE ? set_loc(status_set(136), NULL) : 0;
+    if (pid > 0) {
+        if (WTERMSIG(*stat_loc) == SIGSEGV && WCOREDUMP(*stat_loc))
+            my_errorstr("Segmentation fault (core dumped)\n");
+        else if (WTERMSIG(*stat_loc) == SIGSEGV)
+            my_errorstr("Segmentation fault\n");
+        if (WTERMSIG(*stat_loc) == SIGFPE && WCOREDUMP(*stat_loc))
+            my_errorstr("Floating exception (core dumped)\n");
+        else if (WTERMSIG(*stat_loc) == SIGFPE)
+            my_errorstr("Floating exception\n");
+    }
     return pid;
 }
 
