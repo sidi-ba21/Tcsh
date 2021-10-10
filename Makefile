@@ -67,6 +67,7 @@ SRC		=	$(SRC_DIR)main.c					\
 			$(SRC_DIR)logical_operator.c			\
 			$(SRC_DIR)semicolon_end.c		\
 			$(SRC_DIR)signal_handler.c		\
+			$(BUILTING_DIR)which.c			\
 
 all:	$(NAME)
 

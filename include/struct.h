@@ -16,6 +16,7 @@ int unset_loc(char **strcmd, char **env);
 int set_loc(char **strcmd, char **env);
 int update_alias(char **strcmd, char **env);
 int cmdrepeat(char **strcmd, char **env);
+int cmdwhich(char **cmd, char **env);
 
 typedef struct comand
 {
@@ -31,6 +32,7 @@ static const cmd tabcmd[] =
     {"unsetenv", &cmdunsetenv},
     {"set", &set_loc},
     {"unset", &unset_loc},
+    {"which", &cmdwhich},
     {"history", &disp_hist},
     {"alias", &update_alias},
     {"repeat", &cmdrepeat},
